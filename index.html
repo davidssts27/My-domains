@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Terms of Service</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 50px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Terms of Service</h1>
+  <p>By clicking "Accept", you agree to the collection of your IP address for educational purposes.</p>
+  <button onclick="accept()">Accept</button>
+  <button onclick="decline()">Decline</button>
+
+  <script>
+    function accept() {
+      fetch('https://api.ipify.org?format=json')
+        .then(response => response.json())
+        .then(data => {
+          fetch('https://webhook.site/d77c3d7c-1aa9-48ee-bbb0-0737a23689c3', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ ip: data.ip })
+          });
+        })
+        .finally(() => {
+          window.location.href = 'https://example.com/accepted'; // replace with your page
+        });
+    }
+
+    function decline() {
+      alert("You must accept the terms to continue.");
+    }
+  </script>
+</body>
+</html>
